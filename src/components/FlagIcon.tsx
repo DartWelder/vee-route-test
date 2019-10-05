@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Brightness5,
     FlashOn,
@@ -7,38 +7,19 @@ import {
 } from '@material-ui/icons';
 import { ItemFlagsEnum } from '../constants';
 
-export default class FlagIcon extends Component<IFlagIconProps, IFlagIconState> {
-    constructor(props: IFlagIconProps) {
-        super(props);
-        this.state = {
-            icon: props.icon
-        };
-    }
-    render() {
-        let icon;
-        switch (this.state.icon) {
-            case 'flower':
-                icon = <LocalFlorist/>;
-                break;
-            case 'heart':
-                icon = <Favorite/>;
-                break;
-            case 'sun':
-                icon = <Brightness5/>;
-                break;
-            case 'flash':
-                icon = <FlashOn/>;
-                break;
-        }
-        return icon;
-    }
-}
-
-export interface IFlagIconState {
-    icon: string
+export default function FlagIcon(props: IFlagIconProps) {
+    const ComputedComponent = iconTypes[props.icon];
+    return <ComputedComponent fontSize="small" />;
 }
 
 export interface IFlagIconProps {
     icon: ItemFlagsEnum
+}
+
+const iconTypes = {
+    [ItemFlagsEnum.flower]: LocalFlorist,
+    [ItemFlagsEnum.heart]: Favorite,
+    [ItemFlagsEnum.sun]: Brightness5,
+    [ItemFlagsEnum.flash]: FlashOn
 }
 

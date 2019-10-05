@@ -3,6 +3,7 @@ import { IListItem, ItemFlagsEnum } from "./constants";
 export class Items {
     list: IListItem[];
     constructor() {
+        console.log('>>>>>>>>>>', 'ItemsConstructor');
         this.list = this.createList(100);
     }
 
@@ -12,13 +13,13 @@ export class Items {
         for (let i = 1; i <= num; i++) {
             list.push({
                 name: `Item${i}`,
-                flags: this.generateFlags()
+                flags: Items.generateFlags()
             });
         }
         return list;
     }
 
-    generateFlags = (): ItemFlagsEnum[] => {
+    static generateFlags = (): ItemFlagsEnum[] => {
         let flags = new Array<ItemFlagsEnum>();
         Object.keys(ItemFlagsEnum).forEach((flag) => {
             if (Math.random() <= 0.5) {
@@ -28,3 +29,5 @@ export class Items {
         return flags;
     }
 }
+
+export const itemList = new Items().list;
