@@ -10,7 +10,14 @@ export default function Filter(props: IFilterProps) {
         sortEnable: props.sortEnable,
         textFilterEnable: props.textFilterEnable,
         iconFilterEnable: props.iconFilterEnable,
-        filterPhrase: ''
+        filterPhrase: '',
+        iconFilters: (() => {
+            let flags = {} as any;
+            Items.generateFlags(true).forEach((f) => {
+                flags[f] = false;
+            })
+            return flags;
+        })()
     });
 
     const handleSortChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,26 +42,72 @@ export default function Filter(props: IFilterProps) {
         props.onChangeFilter(filteredItems);
     }
 
-    const handleFlagClick = (flag: ItemFlagsEnum) => {
-    }
+    const handleFlagFilterChange = (flag: ItemFlagsEnum) => {
+        let newState: any = {
+            ...state,
+            iconFilters: {
+                ...state.iconFilters,
+                [flag.toString()]: !state.iconFilters[flag]
+            }
+        };
+        setState(newState);
+        const activeFlags: string[] = Object
+            .entries(newState.iconFilters)
+            .filter(([_, value]: any) => value)
+            .map(([_, value]: any) => _);
+        const filteredItems = props.pureItemList.filter((item: IListItem) => {
+            return activeFlags.every((activeFlag) => {
+                return item.flags.includes(activeFlag as ItemFlagsEnum)
+            });
+        });
+        props.onChangeFilter(filteredItems);
+    };
 
     const sort = (arr: IListItem[], dir: boolean) => {
         return arr.sort((a: IListItem, b: IListItem) => {
-            return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }) * (dir ? 1 : -1);
+            return a.name.localeCompare(
+                b.name,
+                undefined,
+                {
+                    numeric: true, sensitivity: 'base'
+                }) * (dir ? 1 : -1);
         });
     }
 
-    const { textFilterEnable, sortEnable, iconFilterEnable, filterPhrase, sortChecked } = state;
+    const {
+        textFilterEnable,
+        sortEnable,
+        iconFilterEnable,
+        filterPhrase,
+        sortChecked,
+        iconFilters
+    } = state;
+    
     return (
         <div className="filter">
-            {textFilterEnable && <TextField className="text-filter" placeholder="Text Filter" onChange={handleTextFilterChange} value={filterPhrase} />}
-            {sortEnable && <span className="sorting">
-                sort
+            {textFilterEnable &&
+                <TextField
+                    className="text-filter"
+                    placeholder="Text Filter"
+                    onChange={handleTextFilterChange}
+                    value={filterPhrase} />
+            }
+            {sortEnable &&
+                <span className="sorting">
+                    sort
                     <Checkbox checked={sortChecked}
-                    onChange={handleSortChange()}
-                    value="sortChecked" />
-            </span>}
-            {iconFilterEnable && <div><span>Filters: </span> <FlagsSet onFlagClick={handleFlagClick} flags={Items.generateFlags(true)} /></div>}
+                        onChange={handleSortChange()}
+                        value="sortChecked" />
+                </span>
+            }
+            {iconFilterEnable &&
+                <div>
+                    <span>Filters: </span>
+                    <FlagsSet
+                        onFlagClick={handleFlagFilterChange}
+                        flags={Items.generateFlags(true)}
+                        activeFlags={iconFilters} /></div>
+            }
         </div>
     )
 }
@@ -67,8 +120,3 @@ export interface IFilterProps {
     onChangeFilter: Function,
     pureItemList: IListItem[]
 }
-
-// export interface IFilterState {
-//     sortChecked: boolean,
-//     filterPhrase: string
-// }

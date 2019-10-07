@@ -1,26 +1,29 @@
 import React from 'react';
 import ListItem from './ListItem';
 import { IListItem } from '../constants';
-const List = (props: IListProps) => {
+
+export default function List(props: IListProps) {
+    const { activeItem, onItemClick } = props;
     return (
         <div>
             <div className="list">
                 {
-                    props.items.map((item: IListItem) => <ListItem item={item} onItemClick={props.onItemClick} />)
+                    props.items.map((item: IListItem) => (
+                        <ListItem
+                            key={item.id}
+                            item={item}
+                            active={activeItem === item.id}
+                            onItemClick={onItemClick}
+                        />
+                    ))
                 }
             </div>
         </div>
     )
 }
 
-export default List;
-
 export interface IListProps {
     onItemClick: Function,
-    items: IListItem[]
-}
-
-export interface IListState {
     items: IListItem[],
-    sortChecked: boolean
+    activeItem: string
 }

@@ -1,4 +1,5 @@
 import { IListItem, ItemFlagsEnum } from "../constants";
+import uuid from 'uuid/v1';
 
 export class Items {
     list: IListItem[];
@@ -12,7 +13,8 @@ export class Items {
         for (let i = 1; i <= num; i++) {
             list.push({
                 name: `Item${i}`,
-                flags: Items.generateFlags()
+                flags: Items.generateFlags(),
+                id: uuid()
             });
         }
         return list;

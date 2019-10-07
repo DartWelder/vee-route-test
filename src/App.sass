@@ -28,6 +28,10 @@ $listGray: #222
   &:hover
     background-color: lighten($listGray, 10)
     border-radius: 5px
+
+.item-selected
+  background-color: lighten($listGray, 10)  
+  border-radius: 5px
     
 .item-name
   margin-left: 15px
@@ -38,16 +42,20 @@ $listGray: #222
   margin-top: 20px
   background: $listGray
   color: #ddd
+  text-align: center
 
   h1  
     text-align: center
 
-.sorting > textarea
-  color: #777
-  width: 30%
+.sorting
+  margin-left: 15px
+  textarea
+    color: #777
+    width: 30%
 
 .filter
   margin: 20px 20px
+  color: #ddd
 
 .text-filter  
   width: 70%
@@ -62,15 +70,3 @@ $listGray: #222
   display: inline-block
 
 
-//   // span    
-//   //   margin-left: 20px
-
-// .itemName, .itemFlags
-//   // display: inline-block
-//   // margin-top: 10px
-
-//   // display: flex
-//   // justify-content: space-around;
-
-// .itemName
-//   padding-left: 20px

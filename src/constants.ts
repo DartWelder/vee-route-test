@@ -8,5 +8,5 @@ export enum ItemFlagsEnum {
 export interface IListItem {
     name: string,
     flags: ItemFlagsEnum[],
-    toString?: any
+    id: string
 }
