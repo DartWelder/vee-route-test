@@ -3,7 +3,7 @@ import './App.sass';
 import List from './components/List';
 import { IListItem, ItemFlagsEnum } from './constants';
 import ItemDetails from './components/ItemDetails';
-import { Items, itemList } from './Items.class';
+import { itemList } from './classes/Items.class';
 import Filter from './components/Filter';
 
 function App() {
@@ -20,19 +20,19 @@ function App() {
     });
   }
 
-  const onChangeFilter = () => {
-    setState({ ...state, itemList: state.itemList }); 
+  const onChangeFilter = (newItems: IListItem[]) => {
+    setState({ ...state, itemList: newItems }); 
   }
 
   return (
     <div className="App">
       <div className="left">
-        {/* <Filter items={state.itemList} sortEnable={true} onChangeFilter={onChangeFilter} /> */}
+        <Filter items={state.itemList} pureItemList={itemList} sortEnable={true} textFilterEnable={true} onChangeFilter={onChangeFilter} />
         <List items={state.itemList} onItemClick={handeItemClick}></List>
       </div>
       <ItemDetails selectedItem={state.selectedItem} />
       <div className="right">
-        {/* <Filter items={state.itemList} sortEnable={true} onChangeFilter={onChangeFilter} /> */}
+        <Filter items={state.itemList} iconFilterEnable={true} pureItemList={itemList} onChangeFilter={onChangeFilter} />
         <List items={state.itemList} onItemClick={handeItemClick}></List>
       </div>
     </div>

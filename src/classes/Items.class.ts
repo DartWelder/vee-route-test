@@ -1,9 +1,8 @@
-import { IListItem, ItemFlagsEnum } from "./constants";
+import { IListItem, ItemFlagsEnum } from "../constants";
 
 export class Items {
     list: IListItem[];
     constructor() {
-        console.log('>>>>>>>>>>', 'ItemsConstructor');
         this.list = this.createList(100);
     }
 
@@ -19,11 +18,15 @@ export class Items {
         return list;
     }
 
-    static generateFlags = (): ItemFlagsEnum[] => {
+    static generateFlags = (getAll: boolean = false): ItemFlagsEnum[] => {
         let flags = new Array<ItemFlagsEnum>();
         Object.keys(ItemFlagsEnum).forEach((flag) => {
+            if (getAll) {
+                flags.push(flag as ItemFlagsEnum);
+                return;
+            }
             if (Math.random() <= 0.5) {
-                flags.push(flag as ItemFlagsEnum)
+                flags.push(flag as ItemFlagsEnum);
             }
         });
         return flags;

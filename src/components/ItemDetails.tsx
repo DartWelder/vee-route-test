@@ -18,7 +18,7 @@ export default function ItemDetails(props: IitemDetailsProps) {
                     <div> {props.selectedItem && props.selectedItem.name}</div>
                     <div className="itemFlags">
                         {props.selectedItem && props.selectedItem.flags.map((flag) => (
-                            <FlagIcon icon={flag} />
+                            <FlagIcon disabled={false} onClick={()=>{}} icon={flag} />
                         ))}
                     </div>
                 </Grid>

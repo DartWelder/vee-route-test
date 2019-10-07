@@ -9,11 +9,17 @@ import { ItemFlagsEnum } from '../constants';
 
 export default function FlagIcon(props: IFlagIconProps) {
     const ComputedComponent = iconTypes[props.icon];
-    return <ComputedComponent fontSize="small" />;
+    return (
+        <div className="icon" onClick={() => props.onClick(props.icon)} >
+            <ComputedComponent color={props.disabled ? 'disabled' : 'primary'} fontSize="small" />
+        </div>
+    )
 }
 
 export interface IFlagIconProps {
-    icon: ItemFlagsEnum
+    icon: ItemFlagsEnum,
+    disabled: boolean,
+    onClick: (flag: ItemFlagsEnum) => void
 }
 
 const iconTypes = {

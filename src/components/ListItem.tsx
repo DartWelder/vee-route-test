@@ -1,35 +1,28 @@
 import React, { Component } from 'react'
-import { IListItem } from '../constants';
+import { IListItem, ItemFlagsEnum } from '../constants';
+import FlagsSet from './FlagsSet';
 import FlagIcon from './FlagIcon';
 
 export class ListItem extends Component<IListItemProps, IListItemState> {
-    constructor(props: IListItemProps) {
-        super(props);
 
-        this.state = {
-            item: props.item
-        };
-        
-        this.onClickHandler = this.onClickHandler.bind(this);
+    onClickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        this.props.onItemClick(this.props.item);
     }
 
     render() {
+        const { name, flags } = this.props.item
         return (
             <div className="item" onClick={this.onClickHandler}>
                 <div className="item-name">
-                    {this.state.item.name}
+                    {name}
                 </div>
                 <div className="flags">
-                    {this.state.item.flags.map((flag) => (
-                        <FlagIcon icon={flag} />
+                    {flags.map((flag: ItemFlagsEnum) => (
+                        <FlagIcon disabled={false} onClick={()=> {}} icon={flag} />
                     ))}
                 </div>
             </div>
         )
-    }
-
-    onClickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        this.props.onItemClick(this.state.item);
     }
 }
 
